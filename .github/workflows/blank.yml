@@ -5,5 +5,13 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Run a one-line script
-        run: echo Hello, world!
+      - uses: octokit/request-action@v2.x
+        id: get_reviews
+        with:
+          route: GET /repos/{owner}/{repo}/pulls/{pr}/reviews
+          owner: ${{ github.event.repository.owner.login }}
+          repo: ${{ github.event.repository.name }}
+          pr: ${{ github.event.pull_request.number }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - run: echo "${{ fromJson(steps.get_reviews.outputs.data) }}"
