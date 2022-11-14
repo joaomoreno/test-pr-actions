@@ -14,4 +14,4 @@ jobs:
           pr: ${{ github.event.pull_request.number }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - run: echo "${{ fromJson(steps.get_reviews.outputs.data) }}"
+      - run: echo "${{ steps.get_reviews.outputs.data }}"
